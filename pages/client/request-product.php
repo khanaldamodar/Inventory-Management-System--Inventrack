@@ -2,6 +2,8 @@
 require "../../config.php";
 require "../../includes/login_validator.php";
 
+
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $product_name = $_POST['product_name'];
     $quantity = $_POST['quantity'];
@@ -12,12 +14,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $supplier_name = $_POST['supplier_name'];
 
     // Check if product already exists
-    $check_query = "SELECT * FROM inventory_products WHERE p_name = '$product_name'";
+    $check_query = "SELECT * FROM inventory_products WHERE p_name = '$product_name' AND  created_by='$created_by'";
     $check_result = mysqli_query($conn, $check_query);
 
     if (mysqli_num_rows($check_result) > 0) {
         // Product exists, update quantity
-        $update_sql = "UPDATE inventory_products SET quantity = quantity + $quantity WHERE p_name = '$product_name'";
+        $update_sql = "UPDATE inventory_products SET quantity = quantity + $quantity WHERE p_name = '$product_name' AND created_by= '$created_by'";
         $result = mysqli_query($conn, $update_sql);
         
         if ($result) {
